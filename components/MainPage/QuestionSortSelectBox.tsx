@@ -1,19 +1,23 @@
 
 //네임이슈
 
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 
-export default function QuestionSortSelectBox({name, sort, setSort}: {name: string, sort: string, setSort: React.Dispatch<React.SetStateAction<string>>}) {
+export default function QuestionSortSelectBox({ name, sort, setSort }: { name: string, sort: string, setSort: React.Dispatch<React.SetStateAction<string>> }) {
   return (
-      <FormControl>
-        <Select
-          id={name}
-          value={sort}
-          onChange={(e) => {setSort(e.target.value as string)}}>
-            <MenuItem id='latest-menu' value={'latest'}>최신순</MenuItem>
-            <MenuItem id='view-menu' value={'view'}>조회순</MenuItem>
-            <MenuItem id='recommendation-menu' value={'recommendation'}>추천순</MenuItem>
-        </Select>
-      </FormControl>
+    <FormControl >
+      <InputLabel id="sort-select-label">Sort</InputLabel>
+      <Select
+        labelId="sort-select-label"
+        id={name}
+        value={sort}
+        onChange={(e) => { setSort(e.target.value as string) }}
+        label="Sort"
+      >
+        <MenuItem value={'latest'}>최신순</MenuItem>
+        <MenuItem value={'view'}>조회순</MenuItem>
+        <MenuItem value={'recommendation'}>추천순</MenuItem>
+      </Select>
+    </FormControl>
   );
 }
