@@ -11,7 +11,7 @@ export default function Header({head} : {head: string}) {
           borderRadius: 1,
         }}>
         <Link sx={{textDecoration: 'none', color: 'black'}} href="/">
-        <h2>{head}</h2>
+        <h2>{head === 'all' ? 'peer flow' : head}</h2>
         </Link>
       </Box>
     </header>
