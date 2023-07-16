@@ -7,11 +7,12 @@ import QuestionSortSelectBox from '@/components/MainPage/QuestionSortSelectBox';
 import QuestionSearchWriteBox from '@/components/MainPage/QuestionSearchWriteBox';
 import QuestionPagination from '@/components/MainPage/QuestionPagination';
 import SideBar from '@/components/MainPage/SideBar'
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './globals.css';
 import Header from '../components/Header';
+import { QuestionData } from '@/interface/interface';
 
-const QuestionData = {
+const questionData = {
   // 아래는 게시글의 정보를 담은 데이터입니다.
   "content": [
       {
@@ -68,9 +69,33 @@ const QuestionData = {
 }
 
 export default function Home() {
-  const [category, setCategory] = useState<string>(() => "Peer flow");
-  const [page, setPage] = useState<number>(1);
+  const [category, setCategory] = useState<string>(() => "all");
+  const [page, setPage] = useState<number>(0);
   const [sort, setSort] = useState<string>('latest');
+  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>('');
+  const [questionContent, setQuestionContent] = useState<QuestionData>(questionData);
+  const url = isSearch === true ?
+    'http://localhost:8080/v1/search?title=' + title + '&sort=' + sort + '&page=' + page + '&size=10' 
+  : 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';
+ 
+  const fetchData = useCallback(async (url: string) => {
+    console.log(url);
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      const data = await response.json();
+      setQuestionContent(data);
+    } catch (error) {
+      console.log('Failed to fetch!');
+    }
+  }, []);
+  
+  useEffect(() => {
+    fetchData(url);
+  }, [fetchData, page, sort, category, isSearch]);
 
   return (
     <Container sx={{
@@ -80,13 +105,13 @@ export default function Home() {
       <MainBoard>
         <Header head={category}/>
         <QuestionTopBar>
-          <QuestionSortSelectBox name={'sort select'} sort={sort} setSort={setSort}/>
-          <QuestionSearchWriteBox />
+          <QuestionSortSelectBox  name={'sort select'} sort={sort} setSort={setSort}/>
+          <QuestionSearchWriteBox title={title} setTitle={setTitle} setIsSearch={setIsSearch}/>
         </QuestionTopBar>
-        <QuestionList questionData={QuestionData}/>
-        <QuestionPagination setPage={setPage}page={page}/>
+        <QuestionList questionData={questionContent}/>
+        <QuestionPagination totalPage={questionData.totalPages} setPage={setPage} page={page}/>
       </MainBoard>
-      <SideBar setCategory={setCategory}/>
+      <SideBar setCategory={setCategory} setTitle={setTitle} setIsSearch={setIsSearch}/>
     </Container>
   );
 }

@@ -1,4 +1,4 @@
-import {Box} from '@mui/material';
+import {Box, Link} from '@mui/material';
 
 export default function Header({head} : {head: string}) {
   return (
@@ -10,7 +10,9 @@ export default function Header({head} : {head: string}) {
           bgcolor: 'background.paper',
           borderRadius: 1,
         }}>
-        <h2>{head}</h2>
+        <Link sx={{textDecoration: 'none', color: 'black'}} href="/">
+        <h2>{head === 'all' ? 'peer flow' : head}</h2>
+        </Link>
       </Box>
     </header>
   )

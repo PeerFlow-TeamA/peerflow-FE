@@ -1,9 +1,10 @@
 import { Pagination } from "@mui/material";
 import React from "react";
 
-export default function QuestionPagination({page, setPage}: {page: number, setPage: React.Dispatch<React.SetStateAction<number>>}) {
+
+export default function QuestionPagination({totalPage, page, setPage}: {totalPage: number, page: number, setPage: React.Dispatch<React.SetStateAction<number>>}) {
   const handlePageChange= (event: React.ChangeEvent<unknown>, newPage: number) => {
-    setPage(newPage);
+    setPage(newPage - 1);
   };
   
   return (
@@ -14,7 +15,7 @@ export default function QuestionPagination({page, setPage}: {page: number, setPa
         paddingTop: '20px',
         paddingBottom: '30px',
       }}>
-      <Pagination count={10} page={page} onChange={handlePageChange} showFirstButton showLastButton />
+      <Pagination count={totalPage} page={page + 1} onChange={handlePageChange} showFirstButton showLastButton />
     </footer>
   );
 }
