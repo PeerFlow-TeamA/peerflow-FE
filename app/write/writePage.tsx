@@ -1,13 +1,23 @@
 import Header from "@/components/Header";
-import { TextField, Button, Select, MenuItem, Box, Container, FormControl, InputLabel, Card } from "@mui/material";
-import React from 'react';
+import { TextField, Button, Select, MenuItem, Box, Container, FormControl, InputLabel } from "@mui/material";
+import React, { useState } from "react";
 
 export default function WritePage() {
-  const [sort, setSort] = React.useState('minishell');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('minishell');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [content, setContent] = useState('');
+
+  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+  }
 
   return (
     <Container maxWidth="md">
       <Header head={'게시글 작성'} />
+      <Box component="form" onSubmit={formSubmit} >
       <Box
         sx={{
           display: 'flex',
@@ -15,15 +25,15 @@ export default function WritePage() {
           justifyContent: 'space-between',
         }}
       >
-        <TextField sx={{ mt: '10px', mr: '10px', maxWidth: '550px' }} label="Title" required autoFocus fullWidth />
+        <TextField value={title} onChange={(e) => {setTitle(e.target.value)}} sx={{ mt: '10px', mr: '10px', maxWidth: '550px' }} label="Title" required autoFocus fullWidth />
         <FormControl sx={{ mt: '10px', minWidth: '120px' }}>
           <InputLabel id="Category-select-label">Category</InputLabel>
           <Select
             labelId="Category-select-label"
             id="Category-select"
-            value={sort}
+            value={category}
             label="Category"
-            onChange={(e) => { setSort(e.target.value as string) }}
+            onChange={(e) => { setCategory(e.target.value as string) }}
           >
             <MenuItem value={'minishell'}>minishell</MenuItem>
             <MenuItem value={'ft_irc'}>ft_irc</MenuItem>
@@ -37,17 +47,19 @@ export default function WritePage() {
           flexDirection: 'row',
           justifyContent: 'flex-end',
         }}>
-        <TextField sx={{ mt: '10px', mr: '10px' }} label="Nick Name" required />
-        <TextField sx={{ mt: '10px' }} type="password" label="Password" autoComplete="off" required />
+        <TextField value={userName} onChange={(e) => setUserName(e.target.value)} sx={{ mt: '10px', mr: '10px' }} label="Nick Name" required />
+        <TextField value={password} onChange={(e) => setPassword(e.target.value)} sx={{ mt: '10px' }} type="password" label="Password" autoComplete="off" required />
       </Box>
-      <TextField sx={{ mt: '10px' }} variant="outlined" multiline rows={20} label="Content" required fullWidth />
+      <TextField value={content} onChange={(e) => setContent(e.target.value)}sx={{ mt: '10px' }} variant="outlined" multiline rows={20} label="Content" required fullWidth />
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        mb: '30px',
       }}>
         <Button variant="outlined" sx={{ marginTop: '10px', marginRight: '10px' }} type="submit">작성</Button>
         <Button variant="outlined" href='/' sx={{ marginTop: '10px' }} type="submit">취소</Button>
+      </Box>
       </Box>
     </Container>
   );

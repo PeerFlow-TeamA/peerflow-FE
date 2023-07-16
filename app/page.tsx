@@ -7,11 +7,12 @@ import QuestionSortSelectBox from '@/components/MainPage/QuestionSortSelectBox';
 import QuestionSearchWriteBox from '@/components/MainPage/QuestionSearchWriteBox';
 import QuestionPagination from '@/components/MainPage/QuestionPagination';
 import SideBar from '@/components/MainPage/SideBar'
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './globals.css';
 import Header from '../components/Header';
+import { QuestionData } from '@/interface/interface';
 
-const QuestionData = {
+const questionData = {
   // 아래는 게시글의 정보를 담은 데이터입니다.
   "content": [
       {
@@ -71,6 +72,25 @@ export default function Home() {
   const [category, setCategory] = useState<string>(() => "Peer flow");
   const [page, setPage] = useState<number>(1);
   const [sort, setSort] = useState<string>('latest');
+  const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
+
+  const fetchQuestionListHandler = useCallback(async () => {
+    try {
+      const response = await fetch('http://10.19.232.87:8080/v1?category=minishell&sort=views&page=1&size=5');
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      const data = await response.json();
+      setQuestionContent(data);
+    } catch (error) {
+      console.log('Failed to fetch!');
+    }
+  }, []);
+  
+
+  useEffect(() => {
+    fetchQuestionListHandler();
+  }, [fetchQuestionListHandler]);
 
   return (
     <Container sx={{
@@ -83,7 +103,7 @@ export default function Home() {
           <QuestionSortSelectBox name={'sort select'} sort={sort} setSort={setSort}/>
           <QuestionSearchWriteBox />
         </QuestionTopBar>
-        <QuestionList questionData={QuestionData}/>
+        <QuestionList questionData={questionContent}/>
         <QuestionPagination setPage={setPage}page={page}/>
       </MainBoard>
       <SideBar setCategory={setCategory}/>

@@ -1,23 +1,22 @@
 'use client';
-import { Container, Box, Card, Typography, Avatar } from "@mui/material";
+import { Container, Box, Card, Typography, Avatar, TextField, Pagination } from "@mui/material";
 import Header from "@/components/Header";
 import React from 'react';
 
 export default function detailPage() {
   return (
     <Container maxWidth="md">
-      <Header head={'게시글'} />
+      <Header head={'Peer flow'} />
       <Card variant="outlined" >
-        <Typography sx={{ margin: '20px' }} variant="h6">제목</Typography>
+        <Typography sx={{ margin: '20px' }} variant="h6">Q. How</Typography>
         <Box style={{
           margin: '20px',
           display: 'flex',
-          flexDirection: 'row',
         }}>
           <Avatar sx={{ width: 30, height: 30, marginRight: '10px' }}>N</Avatar>
           <Box>
             <Typography sx={{ fontSize: '15px' }} component="div">Nickname</Typography>
-            <Typography sx={{ fontSize: '10px', lineHeight: 1.5 }} component="div">2021-10-10 10:10:10</Typography>
+            <Typography sx={{ fontSize: '10px', lineHeight: 1.5 }} component="div">2021-10-10 10:10</Typography>
           </Box>
         </Box>
         <Typography sx={{ margin: "20px" }} my={1}>
@@ -37,7 +36,6 @@ export default function detailPage() {
         mr: '20px',
         ml: '20px',
         display: 'flex',
-        flexDirection: 'row',
       }}>
         <Card sx={{ width: '100%' }} variant="outlined">
           <Typography sx={{ fontSize: '15px', margin: '10px' }} component="div">댓글</Typography>
@@ -48,13 +46,11 @@ export default function detailPage() {
         mr: '20px',
         ml: '20px',
         display: 'flex',
-        flexDirection: 'row',
       }}>
         <Card variant="outlined" >
           <Box style={{
             margin: '20px',
             display: 'flex',
-            flexDirection: 'row',
           }}>
             <Avatar sx={{ width: 30, height: 30, marginRight: '10px' }}>N</Avatar>
             <Box>
@@ -69,6 +65,29 @@ export default function detailPage() {
             Vestibulum accumsan, neque vitae congue porta, magna purus pulvinar dui, vel elementum orci lorem in arcu. Praesent porta lacus in tempor rhoncus. Etiam porta rutrum commodo. Sed vel diam eu nisi pulvinar eleifend vel at leo. Nullam et elit quis diam gravida consequat gravida sed turpis. Sed vulputate tortor nulla, ac gravida felis vestibulum id. Quisque nec urna iaculis, placerat nibh nec, ultrices ipsum. Nullam interdum, purus et laoreet iaculis, ex nulla convallis arcu, non auctor nunc felis non quam.</Typography>
         </Card>
       </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+      <Pagination sx={{
+        mt: '5px',
+        fontSize: '10px',
+      }} count={3} page={1} />
+      </Box>
+      <Box sx={{
+        mt: '5px',
+        mr: '20px',
+        ml: '20px',
+        mb: '20px',
+      }}>
+        <Card variant="outlined" >
+      <TextField sx={{
+        mt: '5px',
+        mr: '20px',
+        ml: '20px',
+        }}></TextField>
+        </Card>
+        </Box>
     </Container >
   );
 }
