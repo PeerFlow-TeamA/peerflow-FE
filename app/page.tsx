@@ -74,7 +74,7 @@ export default function Home() {
   const [sort, setSort] = useState<string>('latest');
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
-  const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
+  const [questionContent, setQuestionContent] = useState<QuestionData>(questionData);
   const url = isSearch === true ?
     'http://localhost:8080/v1/search?title=' + title + '&sort=' + sort + '&page=' + page + '&size=10' 
   : 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';

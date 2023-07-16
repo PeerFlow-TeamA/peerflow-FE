@@ -3,31 +3,6 @@ import { Container, Box, Card, Typography, Avatar, TextField, Pagination, Button
 import Header from "@/components/Header";
 import React, {useState, useCallback, useEffect} from 'react';
 import getCurrentTime from "@/util/util";
-
-// {
-//   "nickname": "san",
-//   "content": "응 안해",
-//   "createdAt": "2023-07-04T16:45:48.683522",
-//   "updatedAt": null,
-//   "answerList": [
-//       {
-//           "nickname": "hoho",
-//           "content": "응 아니야",
-//           "createdAt": "2023-07-04T16:45:59.145404",
-//           "updatedAt": null,
-//           "type": "answer",
-//           "recommend": 0,
-//           "questionId": 1,
-//           "answerId": 1,
-//           "adopted": false
-//       }
-//   ],
-//   "type": "question",
-//   "title": "미니쉘 우웩",
-//   "category": "minishell",
-//   "recommend": 0,
-//   "view": 1
-// }
    
 interface AnswerData {
   nickname: string;
@@ -54,6 +29,31 @@ interface DetailData {
   view: number;
 }
 
+const questionData : DetailData = {
+  nickname: "",
+  content: "",
+  createdAt: "",
+  updatedAt: '',
+  answerList: [
+      {
+          "nickname": "",
+          "content": "",
+          "createdAt": "",
+          "updatedAt": '',
+          "type": "",
+          "recommend": 0,
+          "questionId": 1,
+          "answerId": 1,
+          "adopted": false
+      }
+  ],
+  type: "question",
+  title: "",
+  category: "",
+  recommend: 0,
+  view: 1
+}
+
 function AnswerBox({answerData} : {answerData: AnswerData}) {
   return (
     <>
@@ -61,11 +61,13 @@ function AnswerBox({answerData} : {answerData: AnswerData}) {
         mt: '10px',
         mr: '20px',
         ml: '20px',
-        display: 'flex',
+        width: '100%',
       }}>
-        <Card variant="outlined" >
+        <Card sx={{mr: '40px'}}
+        variant="outlined" >
           <Box style={{
             margin: '20px',
+            width: '100%',
             display: 'flex',
             }}>
             <Avatar sx={{ width: 30, height: 30, marginRight: '10px' }}>{answerData.nickname[0]}</Avatar>
@@ -83,9 +85,9 @@ function AnswerBox({answerData} : {answerData: AnswerData}) {
   )
 }
 
-export default function detailPage({id} : {id: number}) {
-  const url = `http://localhost:8080/v1/question/${id}`
-  const [content, setContent] = useState<DetailData | null>(null);
+export default function detailPage() {
+  const url = `http://localhost:8080/v1/question/1`
+  const [content, setContent] = useState<DetailData>(questionData);
   const [answer, setAnswer] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -169,7 +171,7 @@ export default function detailPage({id} : {id: number}) {
           <Typography sx={{ fontSize: '15px', margin: '10px' }} component="div">댓글</Typography>
         </Card>
       </Box>
-      {content && content.answerList.map((answerData) => <AnswerBox answerData={answerData} />)}
+      {content && content.answerList.map((answerData) => <AnswerBox key={answerData.answerId} answerData={answerData} />)}
       <Box 
         component={'form'}
         onSubmit={onSubmit}
@@ -187,7 +189,7 @@ export default function detailPage({id} : {id: number}) {
             <TextField sx={{
               width: '100%',
               mr: '10px',
-            }} label="댓글을 입력하세요"
+            }} label="답변을 입력하세요"
             multiline rows={5}
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

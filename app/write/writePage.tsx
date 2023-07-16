@@ -19,8 +19,8 @@ export default function WritePage() {
         body: JSON.stringify({
           title: title,
           nickname: userName,
-          password: password,
           category: category,
+          password: password,
           content: content,
           createdAt: getCurrentTime(),
         }),
@@ -33,7 +33,6 @@ export default function WritePage() {
       }
       const data = await response.json();
       console.log(data);
-      window.location.href = '/';
     } catch (error) {
       console.log('Post Error');
     }
