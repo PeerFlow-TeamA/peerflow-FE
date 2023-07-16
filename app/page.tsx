@@ -77,7 +77,7 @@ export default function Home() {
 
   const fetchQuestionListHandler = useCallback(async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {mode: 'no-cors'});
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -103,6 +103,7 @@ export default function Home() {
     let pageUrl = page;
     setUrl('https://localhost:8080/v1?category=' + categoryUrl + '&sort=' + sortUrl + '&page=' + pageUrl + '&size=10');
     fetchQuestionListHandler();
+    console.log(url);
   }
   
 
@@ -122,9 +123,9 @@ export default function Home() {
           <QuestionSearchWriteBox />
         </QuestionTopBar>
         <QuestionList questionData={questionContent}/>
-        <QuestionPagination fetchFunction={fetchUrlHandler} setPage={setPage}page={page}/>
+        <QuestionPagination fetchFunction={fetchUrlHandler} setPage={setPage} page={page}/>
       </MainBoard>
-      <SideBar setCategory={setCategory}/>
+      <SideBar fetchFunction={fetchUrlHandler} setCategory={setCategory}/>
     </Container>
   );
 }

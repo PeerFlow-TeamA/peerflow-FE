@@ -19,7 +19,7 @@ export default function QuestionPagination({page, setPage, fetchFunction}: {page
         paddingTop: '20px',
         paddingBottom: '30px',
       }}>
-      <Pagination count={10} page={page} onChange={handlePageChange} showFirstButton showLastButton />
+      <Pagination count={5} page={page} onChange={handlePageChange} showFirstButton showLastButton />
     </footer>
   );
 }
