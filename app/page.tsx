@@ -73,10 +73,11 @@ export default function Home() {
   const [page, setPage] = useState<number>(1);
   const [sort, setSort] = useState<string>('latest');
   const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
+  const [url, setUrl] = useState<string>(() => 'http://10.19.232.87:8080/v1?category=all&sort=latest&page=1&size=10');
 
   const fetchQuestionListHandler = useCallback(async () => {
     try {
-      const response = await fetch('http://10.19.232.87:8080/v1?category=minishell&sort=views&page=1&size=5');
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -86,6 +87,23 @@ export default function Home() {
       console.log('Failed to fetch!');
     }
   }, []);
+
+  function fetchUrlHandler() {
+    let categoryUrl;
+    if (category === 'peer flow') categoryUrl = 'all';
+    else if (category === 'minishell') categoryUrl = 'minishell';
+    else if (category === 'ft_irc') categoryUrl = 'ft_irc';
+    else if (category === 'minirt')  categoryUrl = 'minirt';
+
+    let sortUrl;
+    if (sort === 'latest') sortUrl = 'latest';
+    else if (sort === 'recommend') sortUrl = 'recommend';
+    else if (sort === 'views') sortUrl = 'views';
+
+    let pageUrl = page;
+    setUrl('https://hi/v1?category=' + categoryUrl + '&sort=' + sortUrl + '&page=' + pageUrl + '&size=10');
+    fetchQuestionListHandler();
+  }
   
 
   useEffect(() => {
@@ -100,11 +118,11 @@ export default function Home() {
       <MainBoard>
         <Header head={category}/>
         <QuestionTopBar>
-          <QuestionSortSelectBox name={'sort select'} sort={sort} setSort={setSort}/>
+          <QuestionSortSelectBox fetchFunction={fetchUrlHandler} name={'sort select'} sort={sort} setSort={setSort}/>
           <QuestionSearchWriteBox />
         </QuestionTopBar>
         <QuestionList questionData={questionContent}/>
-        <QuestionPagination setPage={setPage}page={page}/>
+        <QuestionPagination fetchFunction={fetchUrlHandler} setPage={setPage}page={page}/>
       </MainBoard>
       <SideBar setCategory={setCategory}/>
     </Container>

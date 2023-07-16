@@ -1,9 +1,11 @@
 
-//네임이슈
-
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 
-export default function QuestionSortSelectBox({ name, sort, setSort }: { name: string, sort: string, setSort: React.Dispatch<React.SetStateAction<string>> }) {
+interface fetchFunction {
+  () : void;
+}
+
+export default function QuestionSortSelectBox({ name, sort, setSort, fetchFunction }: { name: string, sort: string, setSort: React.Dispatch<React.SetStateAction<string>>, fetchFunction: fetchFunction }) {
   return (
     <FormControl >
       <InputLabel id="sort-select-label">Sort</InputLabel>
@@ -11,7 +13,9 @@ export default function QuestionSortSelectBox({ name, sort, setSort }: { name: s
         labelId="sort-select-label"
         id={name}
         value={sort}
-        onChange={(e) => { setSort(e.target.value as string) }}
+        onChange={(e) => {
+          setSort(e.target.value as string)
+          fetchFunction(); }}
         label="Sort"
       >
         <MenuItem value={'latest'}>최신순</MenuItem>

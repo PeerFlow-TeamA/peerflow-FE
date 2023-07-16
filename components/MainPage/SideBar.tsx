@@ -1,7 +1,11 @@
 import {Drawer, List, ListItem, ListItemButton, ListItemText} from '@mui/material';
 import React from 'react';
 
-export default function SideBar({setCategory} : {setCategory: React.Dispatch<React.SetStateAction<string>>}) {
+interface fetchFunction {
+  () : void;
+}
+
+export default function SideBar({setCategory , fetchFunction} : {setCategory: React.Dispatch<React.SetStateAction<string>>, fetchFunction: fetchFunction}) {
   return (
     <Drawer
       sx={{
@@ -17,7 +21,9 @@ export default function SideBar({setCategory} : {setCategory: React.Dispatch<Rea
         {['all', 'minishell', 'ft_irc', 'minirt'].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={() => {
-              text === 'all' ? setCategory('Peer flow') : setCategory(text)}}>
+              text === 'all' ? setCategory('Peer flow') : setCategory(text)
+              fetchFunction();
+              }}>
               <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>

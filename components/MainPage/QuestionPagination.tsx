@@ -1,9 +1,14 @@
 import { Pagination } from "@mui/material";
 import React from "react";
 
-export default function QuestionPagination({page, setPage}: {page: number, setPage: React.Dispatch<React.SetStateAction<number>>}) {
+interface fetchFunction {
+  (): void;
+}
+
+export default function QuestionPagination({page, setPage, fetchFunction}: {page: number, setPage: React.Dispatch<React.SetStateAction<number>>, fetchFunction: fetchFunction}) {
   const handlePageChange= (event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage);
+    fetchFunction();
   };
   
   return (
