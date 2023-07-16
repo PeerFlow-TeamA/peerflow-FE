@@ -70,15 +70,19 @@ const questionData = {
 
 export default function Home() {
   const [category, setCategory] = useState<string>(() => "all");
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [sort, setSort] = useState<string>('latest');
+  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>('');
   const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
-  const url = 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';
+  const url = isSearch === true ?
+    'http://localhost:8080/v1/search?title=' + title + '&sort=' + sort + '&page=' + page + '&size=10' 
+  : 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';
  
   const fetchQuestionListHandler = useCallback(async (url: string) => {
     console.log(url);
     try {
-      const response = await fetch(url, {mode: 'no-cors'});
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Something went wrong!');
       }
@@ -102,12 +106,12 @@ export default function Home() {
         <Header head={category}/>
         <QuestionTopBar>
           <QuestionSortSelectBox  name={'sort select'} sort={sort} setSort={setSort}/>
-          <QuestionSearchWriteBox />
+          <QuestionSearchWriteBox setTitle={setTitle} setIsSearch={setIsSearch}/>
         </QuestionTopBar>
         <QuestionList questionData={questionContent}/>
-        <QuestionPagination  setPage={setPage} page={page}/>
+        <QuestionPagination setPage={setPage} page={page}/>
       </MainBoard>
-      <SideBar setCategory={setCategory}/>
+      <SideBar setCategory={setCategory} setIsSearch={setIsSearch}/>
     </Container>
   );
 }

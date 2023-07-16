@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import { TextField, Button, Select, MenuItem, Box, Container, FormControl, InputLabel } from "@mui/material";
 import React, { useState } from "react";
+import getCurrentTime from "@/util/util";
 
 export default function WritePage() {
   const [title, setTitle] = useState('');
@@ -8,10 +9,33 @@ export default function WritePage() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [content, setContent] = useState('');
+  const url = 'https://localhost:8080/v1/question'
 
-  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          title: title,
+          category: category,
+          userName: userName,
+          password: password,
+          content: content,
+          createdAt: getCurrentTime(),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log('Post Error');
+    }
   }
 
   return (
@@ -58,7 +82,7 @@ export default function WritePage() {
         mb: '30px',
       }}>
         <Button variant="outlined" sx={{ marginTop: '10px', marginRight: '10px' }} type="submit">작성</Button>
-        <Button variant="outlined" href='/' sx={{ marginTop: '10px' }} type="submit">취소</Button>
+        <Button variant="outlined" href='/' sx={{ marginTop: '10px' }} type="button">취소</Button>
       </Box>
       </Box>
     </Container>
