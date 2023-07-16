@@ -75,7 +75,7 @@ export default function Home() {
   const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
   const url = 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';
  
-  async function fetchQuestionListHandler(url: string) {
+  const fetchQuestionListHandler = useCallback(async (url: string) => {
     console.log(url);
     try {
       const response = await fetch(url, {mode: 'no-cors'});
@@ -87,11 +87,11 @@ export default function Home() {
     } catch (error) {
       console.log('Failed to fetch!');
     }
-  };
+  }, []);
   
   useEffect(() => {
     fetchQuestionListHandler(url);
-  });
+  }, [fetchQuestionListHandler, url]);
 
   return (
     <Container sx={{

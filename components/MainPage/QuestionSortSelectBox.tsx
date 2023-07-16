@@ -15,7 +15,7 @@ export default function QuestionSortSelectBox({ name, sort, setSort }: { name: s
         label="Sort"
       >
         <MenuItem value={'latest'}>최신순</MenuItem>
-        <MenuItem value={'view'}>조회순</MenuItem>
+        <MenuItem value={'views'}>조회순</MenuItem>
         <MenuItem value={'recommends'}>추천순</MenuItem>
       </Select>
     </FormControl>
