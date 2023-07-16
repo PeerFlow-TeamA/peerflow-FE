@@ -73,7 +73,7 @@ export default function Home() {
   const [page, setPage] = useState<number>(1);
   const [sort, setSort] = useState<string>('latest');
   const [questionContent, setQuestionContent] = useState<QuestionData>(() => questionData);
-  const [url, setUrl] = useState<string>(() => 'http://10.19.232.87:8080/v1?category=all&sort=latest&page=1&size=10');
+  const [url, setUrl] = useState<string>(() => 'http://localhost:8080/v1?category=all&sort=latest&page=1&size=10');
 
   const fetchQuestionListHandler = useCallback(async () => {
     try {
@@ -101,7 +101,7 @@ export default function Home() {
     else if (sort === 'views') sortUrl = 'views';
 
     let pageUrl = page;
-    setUrl('https://hi/v1?category=' + categoryUrl + '&sort=' + sortUrl + '&page=' + pageUrl + '&size=10');
+    setUrl('https://localhost:8080/v1?category=' + categoryUrl + '&sort=' + sortUrl + '&page=' + pageUrl + '&size=10');
     fetchQuestionListHandler();
   }
   
