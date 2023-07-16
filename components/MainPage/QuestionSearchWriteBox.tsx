@@ -1,8 +1,10 @@
 import { Box, TextField, Button, InputAdornment, IconButton } from '@mui/material'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
-export default function QuestionSearchWriteBox({setTitle, setIsSearch}: 
-  {setTitle: React.Dispatch<React.SetStateAction<string>>,
+export default function QuestionSearchWriteBox({title, setTitle, setIsSearch}: 
+  {
+    title: string,
+    setTitle: React.Dispatch<React.SetStateAction<string>>,
     setIsSearch: React.Dispatch<React.SetStateAction<boolean>>}) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
@@ -12,6 +14,7 @@ export default function QuestionSearchWriteBox({setTitle, setIsSearch}:
         placeholder="검색"
         size={'small'}
         sx={{ marginTop: '15px' }}
+        value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
@@ -20,7 +23,7 @@ export default function QuestionSearchWriteBox({setTitle, setIsSearch}:
             <InputAdornment position={'end'}>
               <IconButton
                 onClick={() => {
-                  setIsSearch(true);
+                  title !== '' ? setIsSearch(true) : setIsSearch(false);
                 }}
               >
                 <SearchOutlinedIcon />

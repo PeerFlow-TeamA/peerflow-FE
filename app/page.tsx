@@ -79,7 +79,7 @@ export default function Home() {
     'http://localhost:8080/v1/search?title=' + title + '&sort=' + sort + '&page=' + page + '&size=10' 
   : 'http://localhost:8080/v1?category=' + category +'&sort=' + sort + '&page=' + page + '&size=10';
  
-  const fetchQuestionListHandler = useCallback(async (url: string) => {
+  const fetchData = useCallback(async (url: string) => {
     console.log(url);
     try {
       const response = await fetch(url);
@@ -94,8 +94,8 @@ export default function Home() {
   }, []);
   
   useEffect(() => {
-    fetchQuestionListHandler(url);
-  }, [fetchQuestionListHandler, url]);
+    fetchData(url);
+  }, [fetchData, page, sort, category, isSearch]);
 
   return (
     <Container sx={{
@@ -106,12 +106,12 @@ export default function Home() {
         <Header head={category}/>
         <QuestionTopBar>
           <QuestionSortSelectBox  name={'sort select'} sort={sort} setSort={setSort}/>
-          <QuestionSearchWriteBox setTitle={setTitle} setIsSearch={setIsSearch}/>
+          <QuestionSearchWriteBox title={title} setTitle={setTitle} setIsSearch={setIsSearch}/>
         </QuestionTopBar>
         <QuestionList questionData={questionContent}/>
-        <QuestionPagination setPage={setPage} page={page}/>
+        <QuestionPagination totalPage={questionData.totalPages} setPage={setPage} page={page}/>
       </MainBoard>
-      <SideBar setCategory={setCategory} setIsSearch={setIsSearch}/>
+      <SideBar setCategory={setCategory} setTitle={setTitle} setIsSearch={setIsSearch}/>
     </Container>
   );
 }

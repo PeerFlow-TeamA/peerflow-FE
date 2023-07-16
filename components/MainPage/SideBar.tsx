@@ -1,8 +1,11 @@
 import {Drawer, List, ListItem, ListItemButton, ListItemText} from '@mui/material';
 import React from 'react';
 
-export default function SideBar({setCategory, setIsSearch} 
-  : {setCategory: React.Dispatch<React.SetStateAction<string>>, setIsSearch: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function SideBar({setCategory, setTitle, setIsSearch} 
+  : {
+    setCategory: React.Dispatch<React.SetStateAction<string>>,
+    setTitle: React.Dispatch<React.SetStateAction<string>>,
+    setIsSearch: React.Dispatch<React.SetStateAction<boolean>>}) {
   return (
     <Drawer
       sx={{
@@ -20,6 +23,7 @@ export default function SideBar({setCategory, setIsSearch}
             <ListItemButton onClick={() => {
               setCategory(text);
               setIsSearch(false);
+              setTitle('');
               }}>
               <ListItemText primary={text}/>
             </ListItemButton>
