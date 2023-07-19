@@ -3,6 +3,7 @@ import { Container, Box, Card, Typography, Avatar, TextField, Pagination, Button
 import Header from "@/components/Header";
 import React, {useState, useCallback, useEffect} from 'react';
 import getCurrentTime from "@/util/util";
+import { usePathname } from 'next/navigation';
    
 interface AnswerData {
   nickname: string;
@@ -86,7 +87,8 @@ function AnswerBox({answerData} : {answerData: AnswerData}) {
 }
 
 export default function detailPage() {
-  const url = `http://localhost:8080/v1/question/1`
+  const id = usePathname().split('/')[2];
+  const url = `http://localhost:8080/v1/question/${id}`
   const [content, setContent] = useState<DetailData>(questionData);
   const [answer, setAnswer] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
